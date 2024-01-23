@@ -1,0 +1,14 @@
+{
+  "test": "test",
+  "nav": {
+    "home": "الرئيسية",
+    "convert": "التحويل",
+    "history": "السجلات",
+    "faq": "الاستفسارات"
+  },
+  "history": {
+    "description": "تتبع تغيرات اي عملة من اختيارك على مدار فترة زمنية محددة",
+    "title": "التحويلات"
+  },
+  "numberFormat": "{{value,number}}"
+}

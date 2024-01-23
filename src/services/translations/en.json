@@ -1,0 +1,14 @@
+{
+  "test": "test",
+  "nav": {
+    "home": "Home",
+    "convert": "Convert",
+    "history": "History",
+    "faq": "FAQ"
+  },
+  "history": {
+    "description": "Track the change rate of any currency of your choosing",
+    "title": "History"
+  },
+  "numberFormat": "{{value,number}}"
+}
