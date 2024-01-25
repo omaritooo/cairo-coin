@@ -1,6 +1,6 @@
 export const ButtonSwap = () => (
   <svg
-    className="self-center w-6 h-6 text-black dark:text-white"
+    className="self-center rotate-90 w-6 h-6 text-black dark:text-white"
     fill="none"
     stroke="currentColor"
     strokeWidth={1.5}

@@ -24,7 +24,6 @@ const IconPicker = {
 };
 export const TabSidebar = ({ toggled, name, path, iconName }: Props) => {
   const { pathname } = useLocation();
-  console.log(name);
   const attrs = { active: path === pathname };
 
   return (

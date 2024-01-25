@@ -1,8 +1,8 @@
 import { COUNTRIES } from "src/countries";
 
-export interface X {
+export interface Indicator {
+  Value: number;
   Rate: number;
-  Index: number;
 }
 
 interface Trading {
@@ -36,7 +36,7 @@ export interface Bank {
 
 export interface CIB {
   Data: {
-    S2S: number;
+    DollarPrice: number;
     Rate: number;
   };
   Details: {
@@ -79,17 +79,17 @@ interface CreditRatingCategory {
 }
 
 export interface CreditRating {
-  "S&P": CreditRatingCategory;
-  "Moody's": CreditRatingCategory;
+  SP: CreditRatingCategory;
+  Moodys: CreditRatingCategory;
 }
 
 export interface HomeData {
-  X: X;
+  Indicator: Indicator;
   Binance: BinanceAndBlackMarket;
   BlackMarket: BinanceAndBlackMarket;
   OfficialExchangeRate: Bank;
   ForeignCurrency: ForeignCurrencyBlackMarket;
-  Cib: CIB;
+  CIBArbitrage: CIB;
   Gold: Gold;
   CreditRating: CreditRating;
 }

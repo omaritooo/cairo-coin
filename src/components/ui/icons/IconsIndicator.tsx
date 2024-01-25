@@ -1,4 +1,4 @@
-export const IconsIndicator = () => (
+const IconsIndicator = () => (
   <svg
     className="w-6 h-6"
     fill="none"
@@ -14,3 +14,5 @@ export const IconsIndicator = () => (
     />
   </svg>
 );
+
+export default IconsIndicator;

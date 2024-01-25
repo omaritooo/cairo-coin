@@ -11,6 +11,7 @@ export const MainLayout = () => {
       className={`flex w-screen mt-0 transition duration-150 bg-gray-100 dark:bg-dark-bg ${
         darkMode ? "dark" : ""
       }`}
+      id="main"
     >
       <Sidebar />
       <AnimatePresence mode="wait">

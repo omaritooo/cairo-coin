@@ -1,20 +1,39 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { ReactNode } from "react";
+import { ReactElement, ReactNode } from "react";
 import { variants } from "src/services/variants/sidebarVariants";
 
 interface Props {
   children: string | ReactNode;
   name: string;
-  icon: ReactNode;
+  icon?: ReactElement;
   loading: boolean;
+  size?: string;
+  color?: string;
 }
 
-export const Card = ({ children, name, icon, loading }: Props) => {
+export const Card = ({
+  children,
+  name,
+  color,
+  icon,
+  loading,
+  size = "",
+}: Props) => {
   console.log("Card Wrapper");
+  // console.log(icon());
+
   return (
-    <article className="relative flex flex-col justify-between w-full col-span-1 px-4 py-4 overflow-hidden text-black bg-white shadow-lg min-h-40 grid-col dark:text-white dark:bg-dark-container rounded-xl">
+    <article
+      className={`relative flex flex-col justify-between col-span-8 sm:col-span-2 md:col-span-4 lg:col-span-2 w-full ${
+        size ? size : "h-40"
+      } px-4 py-4 overflow-hidden  ${
+        color
+          ? color
+          : "bg-white dark:bg-dark-container text-black dark:text-white"
+      } shadow-lg min-h-40  grid-col rounded-xl`}
+    >
       <div className="z-20 flex items-center justify-between w-full">
-        <h1 className="flex items-center text-2xl font-semibold text-black gap-x-2 dark:text-dark-titles">
+        <h1 className="flex items-center text-2xl font-semibold  gap-x-2 ">
           {name}
         </h1>
         {icon}

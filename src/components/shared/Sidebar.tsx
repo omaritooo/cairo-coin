@@ -40,7 +40,7 @@ export const Sidebar = () => {
   return (
     <motion.aside
       animate={toggled ? " open" : "closed"}
-      className="sticky top-0 left-0 flex flex-col items-center justify-between h-screen px-2 py-8 transition duration-150 bg-gray-100 shadow-xl dark:text-white dark:bg-dark-container w-fit"
+      className="sticky hidden top-0 left-0 lg:flex flex-col items-center justify-between h-screen px-2 py-8 transition duration-150 bg-gray-100 shadow-xl dark:text-white dark:bg-dark-container w-fit"
       initial="closed"
       variants={variants}
     >

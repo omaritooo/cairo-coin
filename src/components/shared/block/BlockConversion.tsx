@@ -2,19 +2,22 @@ import {
   Dispatch,
   SetStateAction,
   useCallback,
+  useEffect,
   useMemo,
   useState,
 } from "react";
 import { BaseInput } from "src/components/ui/Input/BaseInput";
 import { BaseSelector } from "src/components/ui/Input/BaseSelector";
+import {
+  Country,
+  countryFlags,
+  countryHeaders,
+} from "src/services/providers/countries";
+
+import { toFixedWithCommas } from "src/services/helpers";
 import { ButtonSwap } from "src/components/ui/button/ButtonSwap";
-import { Country, countryHeaders } from "src/services/providers/countries";
-import { useAppSelector } from "src/services/hooks/useStore";
-import { toFixedIfNecessary } from "src/services/helpers";
 
 interface Props {
-  platform: string;
-  transaction: string;
   list: { [key: string]: number } | undefined;
 }
 
@@ -27,14 +30,10 @@ interface PickerEmit {
   value: Country;
   name: string;
 }
-export const BlockConversion = ({ platform, transaction, list }: Props) => {
-  console.log(list);
-  const binance = useAppSelector((state) => state.calculator.binance);
-  const blackMarket = useAppSelector((state) => state.calculator.blackMarket);
-
+export const BlockConversion = ({ list }: Props) => {
   const [currencies, setCurrencies] = useState({
     currencyFrom: 1,
-    currencyTo: binance ? binance["Buy"]["USD"] : 1,
+    currencyTo: list?.USD,
   });
 
   const [toggles, setToggles] = useState({
@@ -68,19 +67,35 @@ export const BlockConversion = ({ platform, transaction, list }: Props) => {
       ...countries,
       [e.name]: e.value.code,
     }));
-    const list2 = platform === "Black Market" ? blackMarket : binance;
 
-    if (list2) {
+    if (list) {
       setCurrencies((currencies) => ({
         ...currencies,
-        [e.name]:
-          list2[`${transaction}` as keyof typeof list2][
-            `${e.value.currencyCode}` as keyof typeof list2
-          ],
+        [e.name]: list[e.value.currencyCode as keyof typeof list],
       }));
     }
   };
 
+  const convertValues = (inputFrom: number) => {
+    const { currencyFrom, currencyTo } = countryPicker;
+    const from = currencyFrom === "EG" ? 1 : currencies.currencyFrom;
+    const to = currencyTo === "EG" ? 1 : currencies.currencyTo;
+    console.log(currencies);
+    let conversion;
+    if (currencyFrom === "EG") {
+      conversion = inputFrom * to;
+    } else {
+      conversion = (inputFrom * from) / to;
+    }
+    return conversion;
+  };
+
+  const [conv, setConv] = useState(list?.USD);
+
+  const convertedCurrency = useMemo(
+    () => toFixedWithCommas(`${convertValues(inputs.from)}`, 2),
+    [inputs, list]
+  );
   const swapCurrencies = () => {
     const tempCode = countryPicker.currencyFrom;
     const tempCurrency = currencies.currencyFrom;
@@ -91,7 +106,7 @@ export const BlockConversion = ({ platform, transaction, list }: Props) => {
       currencyTo: tempCode,
     }));
     setCurrencies((el) => ({
-      currencyFrom: el.currencyTo,
+      currencyFrom: el.currencyTo as number,
       currencyTo: tempCurrency,
     }));
 
@@ -100,98 +115,107 @@ export const BlockConversion = ({ platform, transaction, list }: Props) => {
       to: el.from,
     }));
   };
-
-  const convertValues = useCallback(
-    (inputFrom: number) => {
-      const { currencyFrom, currencyTo } = countryPicker;
-      const from = currencyFrom === "EG" ? 1 : currencies.currencyFrom;
-      const to = currencyTo === "EG" ? 1 : currencies.currencyTo;
-
-      let conversion;
-      if (currencyFrom === "EG") {
-        conversion = inputFrom * to;
-      } else {
-        conversion = (inputFrom * from) / to;
-      }
-      return conversion;
-    },
-    [currencies, platform, transaction, countryPicker]
-  );
-
-  const convertedCurrency = useMemo(
-    () => toFixedIfNecessary(`${convertValues(inputs.from)}`, 2),
-    [inputs, currencies, platform, transaction]
-  );
-
   const changeRates = useMemo(
-    () => toFixedIfNecessary(`${convertValues(1)}`, 2),
-    [currencies, platform, transaction, countryPicker]
+    () => toFixedWithCommas(`${convertValues(1)}`, 2),
+    [currencies, list, countryPicker]
   );
 
+  useEffect(() => {
+    const countryFrom = countryFlags.filter(
+      (el) => el.code == countryPicker.currencyFrom
+    );
+    const countryTo = countryFlags.filter(
+      (el) => el.code == countryPicker.currencyTo
+    );
+    if (!list) {
+      return;
+    }
+    setCurrencies({
+      currencyFrom: list
+        ? list[countryFrom[0].currencyCode as keyof typeof list]
+        : 1,
+      currencyTo: list
+        ? list[countryTo[0].currencyCode as keyof typeof list]
+        : list["USD"],
+    });
+    setConv(toFixedWithCommas(`${convertValues(inputs.from)}`, 2));
+  }, [list]);
+
+  useEffect(() => {
+    setConv(toFixedWithCommas(`${convertValues(inputs.from)}`, 2));
+  }, [list, inputs]);
   return (
-    <div className="flex flex-col justify-center w-full h-full">
-      <div className="flex items-center justify-center w-1/2 mx-auto h-fit gap-x-3">
-        <div className="flex self-center flex-1 max-w-1/3 h-fit min-h-max gap-x-2 gap-y-4">
-          <BaseSelector
-            id="selector"
-            name="currencyFrom"
-            onChange={(e) => {
-              currencyValues(e);
-            }}
-            onToggle={() =>
-              setToggles({ ...toggles, toggleFrom: !toggles.toggleFrom })
-            }
-            open={toggles.toggleFrom}
-            selectedValue={countryHeaders.find(
-              (el) => el.code == countryPicker.currencyFrom
-            )}
-          />
-          <BaseInput
-            className="w-1/2"
-            id="first"
-            name="from"
-            placeholder="Enter value..."
-            type="text"
-            value={inputs.from}
-            valueGetter={(e) => handleChange(setInputs, e)}
-          />
-        </div>
-
-        <button
-          className="bg-transparent w-fit h-fit"
-          onClick={swapCurrencies}
-          type="button"
-        >
-          <ButtonSwap />
-        </button>
-
-        <div className="flex self-center flex-1 min-h-max gap-x-2 gap-y-4">
-          <BaseSelector
-            id="selector"
-            name="currencyTo"
-            onChange={(e) => currencyValues(e)}
-            onToggle={() =>
-              setToggles({ ...toggles, toggleTo: !toggles.toggleTo })
-            }
-            open={toggles.toggleTo}
-            selectedValue={countryHeaders.find(
-              (option) => option.code === countryPicker.currencyTo
-            )}
-          />
-          <BaseInput
-            className="w-1/2"
-            disabled
-            id="second"
-            name="to"
-            type="number"
-            value={convertedCurrency}
-            valueGetter={(e) => handleChange(setInputs, e)}
-          />
-        </div>
-      </div>
-      <span>
-        Change rate: {1} ≈ {changeRates}
-      </span>
+    <div className="flex flex-col justify-center  h-fit min-w-32 w-80 p-4 rounded-md shadow-md">
+      {list ? (
+        <>
+          <div className="flex flex-col gap-y-4 items-center justify-center  mx-auto h-fit gap-x-3">
+            <div className="flex flex-col gap-y-2">
+              <h2>Amount</h2>
+              <div className="flex  self-center flex-1 max-w-1/3 h-fit min-h-max gap-x-2 gap-y-4">
+                <BaseSelector
+                  id="selector"
+                  name="currencyFrom"
+                  onChange={(e) => {
+                    currencyValues(e);
+                  }}
+                  onToggle={() =>
+                    setToggles({ ...toggles, toggleFrom: !toggles.toggleFrom })
+                  }
+                  open={toggles.toggleFrom}
+                  selectedValue={countryHeaders.find(
+                    (el) => el.code == countryPicker.currencyFrom
+                  )}
+                />
+                <BaseInput
+                  className="w-1/2"
+                  id="first"
+                  name="from"
+                  placeholder="Enter value..."
+                  type="text"
+                  value={inputs.from}
+                  valueGetter={(e) => handleChange(setInputs, e)}
+                />
+              </div>
+            </div>
+            <button
+              className="bg-white p-2 shadow-md rounded-full w-fit h-fit"
+              onClick={swapCurrencies}
+              type="button"
+            >
+              <ButtonSwap />{" "}
+            </button>
+            <div className="flex flex-col gap-y-2">
+              <h2>Converted Amount</h2>
+              <div className="flex self-center flex-1 w-full min-h-max gap-x-2 gap-y-4">
+                <BaseSelector
+                  id="selector"
+                  name="currencyTo"
+                  onChange={(e) => currencyValues(e)}
+                  onToggle={() =>
+                    setToggles({ ...toggles, toggleTo: !toggles.toggleTo })
+                  }
+                  open={toggles.toggleTo}
+                  selectedValue={countryHeaders.find(
+                    (option) => option.code === countryPicker.currencyTo
+                  )}
+                />
+                <BaseInput
+                  className="w-1/2"
+                  disabled
+                  id="second"
+                  name="to"
+                  type="number"
+                  value={conv as number}
+                  valueGetter={(e) => handleChange(setInputs, e)}
+                />
+              </div>
+            </div>
+          </div>
+          <span>
+            Change rate: {1} ≈ {toFixedWithCommas(`${convertValues(1)}`, 2)}
+          </span>
+        </>
+      ) : null}
     </div>
   );
 };

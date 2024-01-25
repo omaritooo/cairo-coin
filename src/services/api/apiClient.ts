@@ -20,12 +20,6 @@ const apiClient = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
   timeout: 2000,
   signal: signal.signal,
-  headers: {
-    "Access-Control-Allow-Origin": "*",
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Headers": "*",
-    withCredentials: false,
-  },
 });
 
 const getData = async (): Promise<

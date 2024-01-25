@@ -1,4 +1,4 @@
-export const IconsBinance = () => (
+const IconsBinance = () => (
   <svg
     className="w-6 h-6"
     viewBox="0 0 126.61 126.61"
@@ -13,3 +13,5 @@ export const IconsBinance = () => (
     </g>
   </svg>
 );
+
+export default IconsBinance;

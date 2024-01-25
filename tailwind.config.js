@@ -21,6 +21,13 @@ export default {
           titles: "#7D8FA9",
           input: "#f8f9fa",
         },
+        indicator: {
+          1: "#51C6EA",
+          2: "#76D4AE",
+          3: "#F8E538",
+          4: "#FEB405",
+          5: "#CA514C",
+        },
         success: "#10D096",
         danger: "#FF316A",
       },
