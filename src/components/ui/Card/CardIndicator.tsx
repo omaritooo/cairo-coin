@@ -33,10 +33,10 @@ export const CardIndicator = () => {
         </span>
         <div className={`flex gap-x-1 `}>
           {[...Array(indicator?.Value)].map((el, idx) => (
-            <Pill Value={idx + 1} active key={idx} />
+            <Pill Value={idx + 1} active key={el} />
           ))}
           {[...Array(10 - indicator?.Value)].map((el, idx) => (
-            <Pill Value={idx + 1} key={idx} />
+            <Pill Value={idx + 1} key={el} />
           ))}
         </div>
         <button

@@ -103,11 +103,7 @@ export const ConversionView = () => {
               />
               <NavigationTabs Tabs={PlatformTabs} emitTab={platformReceiver} />
             </motion.div>
-            <BlockConversion
-              list={list}
-              platform={platform}
-              transaction={transaction}
-            />
+            <BlockConversion list={list} />
           </motion.div>
         )}
       </AnimatePresence>

@@ -1,11 +1,4 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { BaseInput } from "src/components/ui/Input/BaseInput";
 import { BaseSelector } from "src/components/ui/Input/BaseSelector";
 import {
@@ -82,20 +75,22 @@ export const BlockConversion = ({ list }: Props) => {
     const to = currencyTo === "EG" ? 1 : currencies.currencyTo;
     console.log(currencies);
     let conversion;
-    if (currencyFrom === "EG") {
-      conversion = inputFrom * to;
-    } else {
-      conversion = (inputFrom * from) / to;
+    if (to) {
+      if (currencyFrom === "EG") {
+        conversion = inputFrom * to;
+      } else {
+        conversion = (inputFrom * from) / to;
+      }
     }
     return conversion;
   };
 
-  const [conv, setConv] = useState(list?.USD);
+  const [conv] = useState(list?.USD);
 
-  const convertedCurrency = useMemo(
-    () => toFixedWithCommas(`${convertValues(inputs.from)}`, 2),
-    [inputs, list]
-  );
+  // const convertedCurrency = useMemo(
+  //   () => toFixedWithCommas(`${convertValues(inputs.from)}`, 2),
+  //   [inputs, list]
+  // );
   const swapCurrencies = () => {
     const tempCode = countryPicker.currencyFrom;
     const tempCurrency = currencies.currencyFrom;
@@ -115,10 +110,10 @@ export const BlockConversion = ({ list }: Props) => {
       to: el.from,
     }));
   };
-  const changeRates = useMemo(
-    () => toFixedWithCommas(`${convertValues(1)}`, 2),
-    [currencies, list, countryPicker]
-  );
+  // const changeRates = useMemo(
+  //   () => toFixedWithCommas(`${convertValues(1)}`, 2),
+  //   [currencies, list, countryPicker]
+  // );
 
   useEffect(() => {
     const countryFrom = countryFlags.filter(
@@ -138,11 +133,13 @@ export const BlockConversion = ({ list }: Props) => {
         ? list[countryTo[0].currencyCode as keyof typeof list]
         : list["USD"],
     });
-    setConv(toFixedWithCommas(`${convertValues(inputs.from)}`, 2));
+    // setConv(toFixedWithCommas(`${convertValues(inputs.from)}`, 2));
   }, [list]);
 
   useEffect(() => {
-    setConv(toFixedWithCommas(`${convertValues(inputs.from)}`, 2));
+    // setConv(
+    //   (conv => {conv = toFixedWithCommas(`${convertValues(inputs.from)}`, 2})
+    // );
   }, [list, inputs]);
   return (
     <div className="flex flex-col justify-center  h-fit min-w-32 w-80 p-4 rounded-md shadow-md">
