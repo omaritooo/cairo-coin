@@ -21,3 +21,38 @@ export const toFixedWithCommas = (value: string, dp: number) => {
 
   return result;
 };
+
+export const indicatorColor = (Value: number) => {
+  const abs = Value;
+  switch (true) {
+    case abs <= 1:
+      return "bg-indicator-1";
+      break;
+    case abs >= 2 && abs < 4:
+      return "bg-indicator-2";
+
+      break;
+    case abs >= 4 && abs <= 7:
+      return "bg-indicator-3";
+
+      break;
+    case abs >= 7 && abs < 9:
+      return "bg-indicator-4";
+      break;
+    case abs >= 9 && abs <= 10:
+      return "bg-indicator-5";
+      break;
+    case abs >= -1 && abs < 0:
+      return "bg-indicator-1";
+    case abs >= -4 && abs < -2:
+      return "bg-indicator-2";
+    case abs >= -7 && abs <= -4:
+      return "bg-indicator-3";
+    case abs >= -9 && abs < -7:
+      return "bg-indicator-4";
+    case abs >= -10 && abs <= -9:
+      return "bg-indicator-5";
+    default:
+      return "bg-black";
+  }
+};

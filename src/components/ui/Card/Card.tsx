@@ -18,30 +18,25 @@ export const Card = ({
   icon,
   loading,
   size = "",
-}: Props) => {
-  console.log("Card Wrapper");
-  // console.log(icon());
-
-  return (
-    <article
-      className={`relative flex flex-col justify-between col-span-8 sm:col-span-2 md:col-span-4 lg:col-span-2 w-full ${
-        size ? size : "h-40"
-      } px-4 py-4 overflow-hidden  ${
-        color
-          ? color
-          : "bg-white dark:bg-dark-container text-black dark:text-white"
-      } shadow-lg min-h-40  grid-col rounded-xl`}
-    >
-      <div className="z-20 flex items-center justify-between w-full">
-        <h1 className="flex items-center text-2xl font-semibold  gap-x-2 ">
-          {name}
-        </h1>
-        {icon}
-      </div>
-      {loading ? <Card.Skeleton /> : children}
-    </article>
-  );
-};
+}: Props) => (
+  <article
+    className={`relative flex flex-col justify-between col-span-8 sm:col-span-2 md:col-span-4 lg:col-span-2 w-full ${
+      size ? size : "h-40"
+    } px-4 py-4 overflow-hidden  ${
+      color
+        ? color
+        : "bg-white dark:bg-dark-container text-black dark:text-white"
+    } shadow-lg min-h-40  grid-col rounded-xl`}
+  >
+    <div className="z-20 flex items-center justify-between w-full">
+      <h1 className="flex items-center text-2xl font-semibold  gap-x-2 ">
+        {name}
+      </h1>
+      {icon}
+    </div>
+    {loading ? <Card.Skeleton /> : children}
+  </article>
+);
 
 const Skeleton = () => (
   <>

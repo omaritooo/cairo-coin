@@ -5,6 +5,7 @@ import { Card } from "./Card";
 import { createPortal } from "react-dom";
 import { Modal } from "src/components/shared/Modal";
 import { useEffect, useState } from "react";
+import { indicatorColor } from "src/services/helpers";
 
 export const CardIndicator = () => {
   const indicator = useAppSelector((state) => state.home.indicator);
@@ -31,11 +32,15 @@ export const CardIndicator = () => {
         <span className="text-center w-fit mx-auto text-6xl">
           {indicator?.Value}
         </span>
-        <div className={`flex gap-x-1 `}>
-          {[...Array(indicator?.Value)].map((el, idx) => (
+        <div
+          className={`flex gap-x-1 ${
+            indicator.Value < 0 ? "flex-row-reverse" : ""
+          } `}
+        >
+          {[...Array(Math.abs(indicator.Value))].map((el, idx) => (
             <Pill Value={idx + 1} active key={el} />
           ))}
-          {[...Array(10 - indicator?.Value)].map((el, idx) => (
+          {[...Array(10 - Math.abs(indicator.Value))].map((el, idx) => (
             <Pill Value={idx + 1} key={el} />
           ))}
         </div>
@@ -76,36 +81,13 @@ const Pill = ({
   Value: number;
   active?: boolean;
 }) => {
-  const indicatorColor = () => {
-    const abs = Math.abs(Value);
-    switch (true) {
-      case abs <= 1:
-        return "bg-indicator-1";
-        break;
-      case abs >= 2 && Value < 4:
-        return "bg-indicator-2";
+  const indicatorStyle = indicatorColor(Value);
 
-        break;
-      case abs >= 4 && abs <= 7:
-        return "bg-indicator-3";
-
-        break;
-      case abs >= 7 && abs < 9:
-        return "bg-indicator-4";
-        break;
-      case abs >= 9 && abs <= 10:
-        return "bg-indicator-5";
-        break;
-      default:
-        return "bg-black";
-    }
-  };
-  console.log(Value);
   return (
     <div
       className={`w-[9%] h-1 rounded-md ${
         active
-          ? indicatorColor()
+          ? indicatorStyle
           : "bg-gray-400 bg-opacity-60 animate-pulse duration-1000"
       }`}
     />

@@ -4,13 +4,14 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./router/routes";
 // import AnimatedRoutes from "./router/AnimatedRoutes";
 import { Provider } from "react-redux";
-import { store } from "./store";
+import { persistor, store } from "./store";
 import "./services/translations";
 
 import { QueryClient, QueryClientProvider } from "react-query";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { HelmetProvider } from "react-helmet-async";
+import { PersistGate } from "redux-persist/integration/react";
 
 const helmetContext = {};
 
@@ -25,9 +26,11 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
-        <HelmetProvider context={helmetContext}>
-          <RouterProvider router={router} />
-        </HelmetProvider>
+        <PersistGate loading={null} persistor={persistor}>
+          <HelmetProvider context={helmetContext}>
+            <RouterProvider router={router} />
+          </HelmetProvider>
+        </PersistGate>
       </Provider>
     </QueryClientProvider>
   );
