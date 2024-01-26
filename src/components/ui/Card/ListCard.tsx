@@ -55,7 +55,7 @@ const ListItem = ({ code, value }: { code: string; value: number }) => {
         </span>
         <span className="font-normal">{toFixedWithCommas(`${value}`, 2)}</span>
       </div>
-      <hr className="border-[0.5px] border-gray-300 dark:border-dark-titles/50" />
+      <hr className="border-[0.5px] border-gray-300 dark:border-dark-titles/50 last-of-type:hidden" />
     </>
   );
 };

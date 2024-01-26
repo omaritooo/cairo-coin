@@ -4,6 +4,7 @@ import { CardSmall } from "src/components/ui/Card/CardSmall";
 import { useAppSelector } from "src/services/hooks/useStore";
 import { CardIndicator } from "src/components/ui/Card/CardIndicator";
 import { ListCard } from "src/components/ui/Card/ListCard";
+import { CardGold } from "src/components/ui/Card/CardGold";
 
 export const BlockGold = ({ isLoading }: { isLoading: boolean }) => {
   console.log("Gold block.");
@@ -22,7 +23,7 @@ export const BlockGold = ({ isLoading }: { isLoading: boolean }) => {
         price={state.gold?.Dollar.Price}
         rate={state.gold.Dollar.Rate}
       />
-      <CardSmall
+      {/* <CardSmall
         loading={isLoading}
         name="Gold Dollar"
         price={state.gold?.Dollar.Price}
@@ -33,7 +34,22 @@ export const BlockGold = ({ isLoading }: { isLoading: boolean }) => {
         name="Gold Dollar"
         price={state.gold?.Dollar.Price}
         rate={state.gold.Dollar.Rate}
+      /> */}
+      <CardGold
+        karats={state.gold.Gram.Buy}
+        loading={isLoading}
+        name="Buy"
+        rate
+        type="lg"
       />
+      <CardGold
+        karats={state.gold.Gram.Sell}
+        loading={isLoading}
+        name="Sell"
+        rate
+        type="lg"
+      />
+
       <div className="flex flex-col md:flex-row col-span-8 lg:col-span-4 gap-2">
         <ListCard
           list={state.gold.Ingot.Buy}
@@ -46,6 +62,22 @@ export const BlockGold = ({ isLoading }: { isLoading: boolean }) => {
           name="Gold Ingots"
           subtitle="Sell"
           type="gold"
+        />
+      </div>
+      <div className="flex flex-col md:flex-row col-span-8 lg:col-span-4 gap-2">
+        <CardGold
+          karats={state.gold.Gram.Rate}
+          loading={isLoading}
+          name="Change Rate"
+          rate
+          type="sm"
+        />
+        <CardGold
+          karats={state.gold.Gram.GlobalPrice}
+          loading={isLoading}
+          name="Global Price"
+          rate
+          type="sm"
         />
       </div>
     </motion.div>
