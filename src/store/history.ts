@@ -8,7 +8,7 @@ interface HistoryState {
 const initialState: HistoryState = {
   history: null,
 };
-
+/*
 function formatDate(d: string) {
   const date = new Date(d);
   let dd = date.getDate();
@@ -22,6 +22,7 @@ function formatDate(d: string) {
   }
   return (d = dd + "/" + mm + "/" + yyyy.toString().slice(-2));
 }
+*/
 export const historySlice = createSlice({
   name: "historySlice",
   initialState,
