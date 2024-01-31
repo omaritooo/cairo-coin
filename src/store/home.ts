@@ -12,7 +12,7 @@ import {
 } from "src/services/types";
 
 interface Header {
-  indicator: number;
+  indicator: number | string;
   binance: number;
   blackMarket: number;
   official: Bank;

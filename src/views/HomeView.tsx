@@ -16,6 +16,7 @@ import { BlockGold } from "src/components/shared/block/BlockGold";
 export const HomeView = () => {
   const dispatch = useAppDispatch();
   const [activeTab, setActiveTab] = useState("Dollar");
+
   const { isLoading, isError } = useQuery({
     queryKey: ["Home page"],
     queryFn: () => api.getData(),
@@ -43,7 +44,7 @@ export const HomeView = () => {
     setActiveTab(e.name);
   };
   return (
-    <div className=" w-full flex-1 flex flex-col gap-y-4 py-2 my-2">
+    <div className="flex flex-col flex-1 w-full py-2 my-2  gap-y-4">
       <Seo title="/" />
       <NavigationTabs Tabs={tabs} emitTab={transactionReceiver} />
 

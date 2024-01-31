@@ -98,11 +98,11 @@ const CardContent = ({
   <div className="flex items-end justify-between min-h-min">
     <motion.span
       {...variants}
-      className="flex items-end text-3xl lg:text-xl xl:text-3xl font-semibold gap-x-2"
+      className="flex items-baseline text-3xl lg:text-xl xl:text-3xl font-semibold gap-x-2"
     >
       {toFixedWithCommas(`${counter}`, 2)}
-      <span className="text-sm italic text-gray-400">
-        ({`${carat}` === "K24" ? "24 Carat" : "21 Carat"})
+      <span className="text-sm italic font-light text-gray-400">
+        {`${carat}` === "K24" ? "24 Carat" : "21 Carat"}
       </span>
     </motion.span>
   </div>

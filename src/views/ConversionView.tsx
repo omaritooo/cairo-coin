@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { api } from "src/services/api/apiClient";
 import { useQuery } from "react-query";
 import { useAppDispatch, useAppSelector } from "src/services/hooks/useStore";
@@ -49,8 +49,8 @@ export const ConversionView = () => {
   const [platform, setPlatform] = useState<string>(PlatformTabs[0].name);
   const [transaction, setTransaction] = useState<string>(BuySellTabs[0].name);
 
+  const [list, setList] = useState<{ [value: string]: number } | null>(null);
   const transactionReceiver = (e: Tabs) => {
-    setPlatform(e.name);
     setTransaction(e.name);
   };
   const platformReceiver = (e: Tabs) => {
@@ -74,18 +74,22 @@ export const ConversionView = () => {
     refetchIntervalInBackground: true,
   });
 
-  const list = useMemo(() => {
-    const list = platform === "Binance" ? binance : blackMarket;
-
-    return transaction === "Buy" ? list?.Buy : list?.Sell;
-  }, [platform, transaction]);
+  useEffect(() => {
+    if (!binance || !blackMarket) {
+      return;
+    }
+    const tempPlatform = platform === "Binance" ? binance : blackMarket;
+    const tempList =
+      transaction === "Buy" ? tempPlatform.Buy : tempPlatform.Sell;
+    setList(tempList);
+  }, [list, binance, blackMarket]);
 
   return (
-    <div className="flex-1 w-full px-6 py-6 rounded-lg my-7 bg-light-container dark:bg-dark-container">
+    <div className="flex-1 w-full bg-light-container bg-opacity-70 px-6 py-6 rounded-lg my-7  dark:bg-dark-container">
       <Seo title="/conversion" />
 
       <AnimatePresence>
-        {isLoading ? (
+        {isLoading || !list ? (
           <motion.div
             {...variants}
             className="flex items-center justify-center h-full"
@@ -96,14 +100,14 @@ export const ConversionView = () => {
           <div>Error</div>
         ) : (
           <motion.div className="flex flex-col flex-1 h-full" {...variants}>
-            <motion.div className="flex justify-between w-full">
+            <motion.div className="flex flex-col sm:flex-row gap-y-4 justify-between w-full">
               <NavigationTabs
                 Tabs={BuySellTabs}
                 emitTab={transactionReceiver}
               />
               <NavigationTabs Tabs={PlatformTabs} emitTab={platformReceiver} />
             </motion.div>
-            <BlockConversion list={list} />
+            <BlockConversion list={list} loading={isLoading} />
           </motion.div>
         )}
       </AnimatePresence>

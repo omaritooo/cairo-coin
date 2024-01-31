@@ -58,11 +58,11 @@ const CardContent = ({
   <div className="flex items-end justify-between min-h-min">
     <motion.span
       {...variants}
-      className="flex items-end text-3xl lg:text-xl xl:text-3xl font-semibold gap-x-2"
+      className="flex items-baseline   text-3xl lg:text-xl xl:text-3xl font-semibold gap-x-2"
     >
       E£ {counter}
-      <span className="text-sm italic text-gray-400">
-        ({buy ? "buy" : "sell"})
+      <span className="text-xs italic font-light text-gray-400">
+        {buy ? "buy" : "sell"}
       </span>
     </motion.span>
     <div className="flex flex-col justify-between font-semibold">

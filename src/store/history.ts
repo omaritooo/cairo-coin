@@ -9,28 +9,54 @@ const initialState: HistoryState = {
   history: null,
 };
 
+function formatDate(d: string) {
+  const date = new Date(d);
+  let dd = date.getDate();
+  let mm = date.getMonth() + 1;
+  const yyyy = date.getFullYear();
+  if (dd < 10) {
+    dd = "0" + dd;
+  }
+  if (mm < 10) {
+    mm = "0" + mm;
+  }
+  return (d = dd + "/" + mm + "/" + yyyy.toString().slice(-2));
+}
 export const historySlice = createSlice({
   name: "historySlice",
   initialState,
   reducers: {
     modifyHistories: (
       state: HistoryState,
-      action: PayloadAction<HistorySlot[]>
+      action: PayloadAction<{
+        history: HistorySlot[];
+        date: boolean;
+      }>
     ) => {
       if (state.history) {
         state.history = null;
       }
+      const { history, date } = action.payload;
 
-      const filteredDates = action.payload.map((el: HistorySlot) => {
-        const date = new Date(el.Time);
-        const formattedDate = `${date.getDate()}/${
-          date.getMonth() + 1
-        }/${date.getFullYear()}`;
-        return (el = {
-          ...el,
+      const filteredDates = history.map((el: HistorySlot) => {
+        if (!date) {
+          const date = new Date(el.Time);
+          const formattedDate = `${date.getDate()}/${
+            date.getMonth() + 1
+          }/${date.getFullYear()}`;
+          ``;
+          return (el = {
+            ...el,
 
-          Time: formattedDate,
-        });
+            Time: formattedDate,
+          });
+        } else {
+          console.log(el.Time);
+          return {
+            Value: el.Value,
+            Time: el.Time,
+          };
+        }
       });
       state.history = filteredDates.reverse();
     },

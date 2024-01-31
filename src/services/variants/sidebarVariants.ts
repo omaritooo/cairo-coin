@@ -16,6 +16,24 @@ export const variants = {
     },
   },
 };
+export const mobileVariants = {
+  open: {
+    width: "80vw",
+    transition: {
+      damping: 40,
+      type: "tween",
+      delay: 2,
+    },
+  },
+  closed: {
+    width: "0px",
+    transition: {
+      damping: 40,
+      type: "tween",
+      delay: 2,
+    },
+  },
+};
 export const textVariants = {
   initial: {
     opacity: 0,

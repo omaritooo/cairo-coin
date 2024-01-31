@@ -6,6 +6,7 @@ import { createPortal } from "react-dom";
 import { Modal } from "src/components/shared/Modal";
 import { useEffect, useState } from "react";
 import { indicatorColor } from "src/services/helpers";
+import { IconsInfinity } from "../icons/IconsInfinity";
 
 export const CardIndicator = () => {
   const indicator = useAppSelector((state) => state.home.indicator);
@@ -24,28 +25,39 @@ export const CardIndicator = () => {
   return (
     <>
       <Card
-        color="bg-dark-container dark:bg-light-titles text-white dark:text-black "
+        color="bg-dark-container  dark:bg-dark-input text-white dark:text-white "
         icon={<IconsIndicator />}
         loading={false}
         name="Indicator"
       >
-        <span className="text-center w-fit mx-auto text-6xl">
-          {indicator?.Value}
-        </span>
-        <div
-          className={`flex gap-x-1 ${
-            indicator.Value < 0 ? "flex-row-reverse" : ""
-          } `}
-        >
-          {[...Array(Math.abs(indicator.Value))].map((el, idx) => (
-            <Pill Value={idx + 1} active key={el} />
-          ))}
-          {[...Array(10 - Math.abs(indicator.Value))].map((el, idx) => (
-            <Pill Value={idx + 1} key={el} />
-          ))}
-        </div>
+        {indicator.Value == "Infinity" ? (
+          <CardInfinity />
+        ) : (
+          <>
+            <span className="text-center w-fit mx-auto text-6xl text-white ">
+              {indicator?.Value}
+              {/* <IconsInfinity /> */}
+            </span>
+            <div
+              className={`flex gap-x-1 ${
+                (indicator.Value as number) < 0 ? "flex-row-reverse" : ""
+              } `}
+            >
+              {[...Array(Math.abs(indicator.Value as number))].map(
+                (el, idx) => (
+                  <Pill Value={idx + 1} active key={el} />
+                )
+              )}
+              {[...Array(10 - Math.abs(indicator.Value as number))].map(
+                (el, idx) => (
+                  <Pill Value={idx + 1} key={el} />
+                )
+              )}
+            </div>
+          </>
+        )}
         <button
-          className="text-xs  rounded-full bg-dark-titles dark:bg-white w-5 h-5 text-center flex items-center justify-center absolute bottom-8 left-4"
+          className="text-xs  rounded-full bg-dark-titles dark:bg-white text-black w-5 h-5 text-center flex items-center justify-center absolute bottom-8 left-4"
           onClick={() => setOpened(true)}
           type="button"
         >
@@ -93,3 +105,16 @@ const Pill = ({
     />
   );
 };
+
+const CardInfinity = () => (
+  <>
+    <span className="text-center mx-auto w-16 h-16">
+      <IconsInfinity />
+    </span>
+    <div className={`flex gap-x-1  `}>
+      {[...Array(10)].map((el) => (
+        <Pill Value={10} active key={el} />
+      ))}
+    </div>
+  </>
+);

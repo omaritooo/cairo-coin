@@ -1,7 +1,7 @@
 import { COUNTRIES } from "src/countries";
 
 export interface Indicator {
-  Value: number;
+  Value: number | string;
   Rate: number;
 }
 

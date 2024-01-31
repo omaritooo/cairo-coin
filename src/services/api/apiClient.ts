@@ -30,17 +30,8 @@ const getData = async (): Promise<
 };
 
 interface HistoryParams {
-  indicator:
-    | "Binance"
-    | "BlackMarket"
-    | "BankRate"
-    | "Rub2Egp"
-    | "CIB"
-    | "Gold24"
-    | "Gold21"
-    | "GoldDollar"
-    | "GoldGlobal";
-  unit?: "Month" | "Day" | "Hour";
+  indicator: string;
+  unit?: string;
   period?: number;
 }
 const getHistory = async ({

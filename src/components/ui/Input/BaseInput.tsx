@@ -31,7 +31,7 @@ export const BaseInput = ({
 
   const Component = (
     <input
-      className="w-full h-12 px-4 text-black bg-white rounded-md shadow-lg min-h-20 dark:text-white dark:shadow-none dark:bg-dark-input focus:outline-none"
+      className="w-full h-12 px-4 text-black bg-gray-100 rounded-md shadow-sm min-h-20 dark:text-white dark:shadow-none dark:bg-dark-input focus:outline-none"
       disabled={disabled}
       id={id}
       name={name}

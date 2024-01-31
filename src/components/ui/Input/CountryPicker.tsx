@@ -1,25 +1,22 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { MutableRefObject, useEffect, useRef } from "react";
+import { Country, countryHeaders } from "src/services/providers/countries";
 
-interface Selected {
-  name: string;
-  value: string;
-}
 export interface BaseSelectorProps {
   id: string;
   open: boolean;
   disabled?: boolean;
-  values: Selected[];
+  name: string;
   onToggle: () => void;
-  onChange: (value: Selected) => void;
-  selectedValue: Selected | undefined;
+  onChange: (value: any["value"]) => void;
+  selectedValue: Country | undefined;
 }
 
-export const BaseSelector = ({
+export const CountryPicker = ({
   id,
   open,
+  name,
   disabled = false,
-  values,
   onToggle,
   onChange,
   selectedValue,
@@ -61,7 +58,12 @@ export const BaseSelector = ({
         >
           {selectedValue ? (
             <span className="flex items-center w-24 truncate ">
-              {selectedValue.name}
+              <img
+                alt={`${selectedValue.code}`}
+                className="inline h-4 rounded-sm rtl:ml-2 ltr:mr-2"
+                src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${selectedValue.code}.svg`}
+              />
+              {selectedValue.currencyCode}
             </span>
           ) : null}
           <span
@@ -99,21 +101,27 @@ export const BaseSelector = ({
               transition={{ duration: 0.1 }}
             >
               <div className="overflow-y-scroll max-h-36 scrollbar scrollbar-track-gray-100 scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-600 scrollbar-thumb-rounded scrollbar-thin">
-                {values.map((value, index) => (
+                {countryHeaders.map((value, index) => (
                   <li
                     className="relative flex items-center py-2 pl-3 text-gray-900 transition cursor-default select-none rtl:pl-9 ltr:pr-9 hover:bg-dark-titles"
                     id="listbox-option-0"
                     key={`${id}-${index}`}
                     onClick={() => {
-                      onChange(value);
+                      onChange({ value, name });
                       onToggle();
                     }}
                     role="option"
                   >
+                    <img
+                      alt={`${value.code}`}
+                      className="inline h-4 rounded-sm rtl:ml-2 ltr:mr-2"
+                      src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${value.code}.svg`}
+                    />
+
                     <span className="font-normal text-black truncate dark:text-white">
-                      {value.name}
+                      {value.currencyCode}
                     </span>
-                    {value.value === selectedValue?.value ? (
+                    {value.code === selectedValue?.code ? (
                       <span className="absolute inset-y-0 flex items-center text-blue-600 rtl:left-0 ltr:right-0 ltr:pr-2 rtl:pl-2">
                         <svg
                           aria-hidden="true"
