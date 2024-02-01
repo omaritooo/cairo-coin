@@ -6,27 +6,39 @@ import { useTranslation } from "react-i18next";
 import { TabMobileSidebar } from "../ui/tab/TabMobileSidebar";
 import { toggleSidebar } from "src/store/theme";
 import { useAppDispatch, useAppSelector } from "src/services/hooks/useStore";
+import { useEffect } from "react";
 
-export const mobileVariants = {
-  open: {
-    width: "400px",
-    height: "100vh",
-    display: "block",
+const mobileVariants = {
+  initial: {
+    opacity: 0,
+    width: 0,
+    top: 0,
+    left: -320,
     transition: {
-      damping: 40,
-      type: "tween",
-      delay: 0.4,
+      opacity: { duration: 0.3 },
+      width: { duration: 0.5 },
+      delay: 0.5,
     },
   },
-  closed: {
+  animate: {
+    opacity: 1,
+    width: "50vw",
+    top: 0,
+    left: 0,
+    transition: {
+      opacity: { duration: 0.1, delay: 0.4 },
+      width: { duration: 0.5 },
+      delay: 0.5,
+    },
+  },
+  exit: {
+    opacity: 0,
     width: 0,
-    height: "100vh",
-    display: "hidden",
 
     transition: {
-      damping: 40,
-      type: "tween",
-      delay: 0.4,
+      opacity: { duration: 0.1 },
+      width: { duration: 0.5 },
+      delay: 0.5,
     },
   },
 };
@@ -55,67 +67,104 @@ const routeMap: Route = {
 export const MobileSidebar = () => {
   // const [toggled, setToggled] = useState<boolean>(false);
   const toggled = useAppSelector((state) => state.theme.mobileSidebarToggle);
-  console.log(toggled);
+
   const dispatch = useAppDispatch();
   const { t, ready } = useTranslation();
   const socials = t("nav", { returnObjects: true });
 
+  useEffect(() => {
+    if (toggled) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+  }, [toggled]);
+
   if (!ready) return "Loading translations....";
   return (
-    <motion.aside
-      animate={toggled ? " open" : "closed"}
-      className={`absolute top-0 left-0 z-50 flex-col items-center justify-between h-screen px-4 py-8 transition duration-150 bg-gray-100 shadow-xl lg:hidden lg:px-2 dark:text-white dark:bg-dark-container ${
-        toggled ? "px-4" : "px-0"
-      }`}
-      custom={100}
-      initial="open"
-      variants={mobileVariants}
-    >
-      <AnimatePresence>
-        {toggled ? (
-          <div className="flex items-center mb-5 max-h-10 ">
-            <motion.img
-              className="min-w-[50px] w-[50px] h-[60px] min-h-[50px] py-1 max-w-[50px] max-h-[50px]"
-              src="/logo.svg"
-              transition={{ duration: 0.7 }}
-              whileHover={{ rotateY: 180 }}
-            />
+    <AnimatePresence>
+      {toggled ? (
+        <>
+          <motion.aside
+            className={` z-50 absolute flex-col px-4 py-8 items-center justify-between h-screen w-1/2  transition duration-150 delay-200 bg-gray-100 shadow-xl lg:hidden lg:px-2 dark:text-white dark:bg-dark-container `}
+            {...mobileVariants}
+          >
+            <AnimatePresence>
+              {toggled ? (
+                <div className="flex items-center mb-5 max-h-10 ">
+                  <motion.img
+                    className="min-w-[50px] w-[50px] h-[60px] min-h-[50px] py-1 max-w-[50px] max-h-[50px]"
+                    src="/logo.svg"
+                    transition={{ duration: 0.7 }}
+                    whileHover={{ rotateY: 180 }}
+                  />
 
-            <motion.span className="mr-2 text-xl ltr:ml-2">
-              Cairo Coin
-            </motion.span>
-          </div>
-        ) : null}
-      </AnimatePresence>
-      <div className="flex flex-col items-start w-full px-2 gap-y-10">
-        {Object.keys(routeMap).map((key) => {
-          const name = socials[key as keyof typeof socials];
-          const iconName = routeMap[key as keyof typeof routeMap].iconName;
-          const path = routeMap[key as keyof typeof routeMap].path;
+                  <motion.span className="mr-2 text-xl ltr:ml-2">
+                    Cairo Coin
+                  </motion.span>
+                </div>
+              ) : null}
+            </AnimatePresence>
+            <div
+              className={`flex flex-col items-start ${
+                toggled ? "w-1/2 px-2" : ""
+              } gap-y-10`}
+            >
+              {Object.keys(routeMap).map((key) => {
+                const name = socials[key as keyof typeof socials];
+                const iconName =
+                  routeMap[key as keyof typeof routeMap].iconName;
+                const path = routeMap[key as keyof typeof routeMap].path;
 
-          return (
-            <TabMobileSidebar
-              iconName={iconName}
-              key={name}
-              name={name}
-              path={path}
-              toggled={toggled}
-            />
-          );
-        })}
-      </div>
+                return (
+                  <TabMobileSidebar
+                    iconName={iconName}
+                    key={name}
+                    name={name}
+                    path={path}
+                    toggled={toggled}
+                  />
+                );
+              })}
+            </div>
 
-      <button
-        className={`${
-          toggled ? "flex" : "hidden"
-        }  items-center mx-auto mt-32 justify-center w-fit`}
-        onClick={() => {
-          dispatch(toggleSidebar());
-        }}
-        type="button"
-      >
-        <IconsArrow toggled={toggled} />
-      </button>
-    </motion.aside>
+            <button
+              className={`${
+                toggled ? "flex" : "hidden"
+              }  items-center mx-auto mt-32 justify-center w-fit`}
+              onClick={() => {
+                dispatch(toggleSidebar());
+              }}
+              type="button"
+            >
+              <IconsArrow toggled={toggled} />
+            </button>
+          </motion.aside>
+          <motion.div
+            className="absolute top-0 left-0 z-10 w-screen h-screen bg-black bg-opacity-50"
+            transition={{
+              initial: {
+                opacity: 0,
+                transition: {
+                  delay: 0.6,
+                },
+              },
+              animate: {
+                opacity: 1,
+                transition: {
+                  delay: 0.6,
+                },
+              },
+              exit: {
+                opacity: 0,
+                transition: {
+                  delay: 0.6,
+                },
+              },
+            }}
+          />
+        </>
+      ) : null}
+    </AnimatePresence>
   );
 };

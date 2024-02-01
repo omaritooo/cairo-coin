@@ -17,8 +17,8 @@ const textVariants = {
 
     transition: {
       opacity: { duration: 0.3 },
-      width: { duration: 0.01 },
-      delay: 50,
+      width: { duration: 0.5 },
+      delay: 0.5,
     },
   },
   animate: {
@@ -27,7 +27,7 @@ const textVariants = {
     transition: {
       opacity: { duration: 0.1, delay: 0.4 },
       width: { duration: 0.5 },
-      delay: 50,
+      delay: 0.5,
     },
   },
   exit: {
@@ -36,8 +36,8 @@ const textVariants = {
 
     transition: {
       opacity: { duration: 0.1 },
-      width: { duration: 0.01 },
-      delay: 50,
+      width: { duration: 0.5 },
+      delay: 0.5,
     },
   },
 };
