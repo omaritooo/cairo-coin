@@ -30,11 +30,11 @@ export const CardIndicator = () => {
         loading={false}
         name="Indicator"
       >
-        {indicator.Value == "Infinity" ? (
+        {indicator.Value == 99 || -99 ? (
           <CardInfinity />
         ) : (
           <>
-            <span className="text-center w-fit mx-auto text-6xl text-white ">
+            <span className="mx-auto text-6xl text-center text-white w-fit ">
               {indicator?.Value}
               {/* <IconsInfinity /> */}
             </span>
@@ -57,7 +57,7 @@ export const CardIndicator = () => {
           </>
         )}
         <button
-          className="text-xs  rounded-full bg-dark-titles dark:bg-white text-black w-5 h-5 text-center flex items-center justify-center absolute bottom-8 left-4"
+          className="absolute flex items-center justify-center w-5 h-5 text-xs text-center text-black rounded-full bg-dark-titles dark:bg-white bottom-8 left-4"
           onClick={() => setOpened(true)}
           type="button"
         >
@@ -108,7 +108,7 @@ const Pill = ({
 
 const CardInfinity = () => (
   <>
-    <span className="text-center mx-auto w-16 h-16">
+    <span className="w-16 h-16 mx-auto text-center">
       <IconsInfinity />
     </span>
     <div className={`flex gap-x-1  `}>
