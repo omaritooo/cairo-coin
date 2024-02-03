@@ -7,7 +7,7 @@ import { modifyHistories } from "src/store/history";
 import { useTranslation } from "react-i18next";
 import { Seo } from "src/services/hooks/useSEO";
 import { BaseSelector } from "src/components/ui/Input/BaseSelector";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { BlockChart } from "src/components/shared/block/BlockChart";
 import { HistorySlot } from "src/services/types/history";
 
@@ -43,34 +43,6 @@ const extractHour = (dataEntry: HistorySlot) => {
 export const HistoryView = () => {
   const dispatch = useAppDispatch();
   const history = useAppSelector((state) => state.history.history);
-
-  const { isLoading, isError, refetch } = useQuery({
-    queryKey: ["History view"],
-    queryFn: () =>
-      api.getHistory({
-        indicator: changedValues.indicator,
-        unit: unit.interval,
-        period: unit.unit,
-      }),
-    onSuccess(data) {
-      let newData;
-      if (unit.interval == "Hour") {
-        newData = data.data.data.map(extractHour);
-        dispatch(modifyHistories({ history: newData, date: true }));
-      } else newData = data.data.data;
-      dispatch(modifyHistories({ history: newData, date: false }));
-    },
-    onError(err) {
-      console.log(err);
-    },
-    refetchInterval: import.meta.env.VITE_UPDATE_INTERVAL,
-    refetchIntervalInBackground: true,
-  });
-  const { t } = useTranslation();
-  const [toggles, setToggles] = useState({
-    toggleDuration: false,
-    toggleIndicator: false,
-  });
   const [changedValues, setChangedValues] = useState({
     duration: "day",
     indicator: "Binance",
@@ -78,6 +50,7 @@ export const HistoryView = () => {
 
   const unit = useMemo(() => {
     const newVal = changedValues.duration;
+    console.log(newVal);
     if (newVal == "day") {
       return {
         unit: 24,
@@ -102,10 +75,38 @@ export const HistoryView = () => {
       return { unit: 365, interval: "Day", intervals: 30 };
     } else return { unit: 24, interval: "Hour", intervals: 4 };
   }, [changedValues]);
+  const { isLoading, isError } = useQuery({
+    queryKey: ["History view", changedValues],
+    queryFn: () =>
+      api.getHistory({
+        indicator: changedValues.indicator,
+        unit: unit.interval,
+        period: unit.unit,
+      }),
+    onSuccess(data) {
+      let newData;
+      console.log(unit.interval);
+      if (unit.interval === "Hour") {
+        newData = data.data.data.map(extractHour);
+        console.log("HOUR");
+        dispatch(modifyHistories({ history: newData, date: true }));
+      } else {
+        newData = data.data.data;
+        dispatch(modifyHistories({ history: newData, date: false }));
+      }
+    },
+    onError(err) {
+      console.log(err);
+    },
+    refetchInterval: import.meta.env.VITE_UPDATE_INTERVAL,
+    refetchIntervalInBackground: true,
+  });
+  const { t } = useTranslation();
+  const [toggles, setToggles] = useState({
+    toggleDuration: false,
+    toggleIndicator: false,
+  });
 
-  useEffect(() => {
-    refetch();
-  }, [changedValues, refetch]);
   if (isLoading) return <BlockLoading />;
   if (isError || !history) {
     return <ErrorBlock />;

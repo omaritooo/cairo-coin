@@ -38,6 +38,7 @@ export const historySlice = createSlice({
         state.history = null;
       }
       const { history, date } = action.payload;
+      console.log(date);
 
       const filteredDates = history.map((el: HistorySlot) => {
         if (!date) {
@@ -52,7 +53,6 @@ export const historySlice = createSlice({
             Time: formattedDate,
           });
         } else {
-          console.log(el.Time);
           return {
             Value: el.Value,
             Time: el.Time,

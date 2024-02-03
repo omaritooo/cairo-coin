@@ -49,7 +49,7 @@ export const Header = () => {
         </button>
         <ButtonToggle />
       </div>
-      <div className="flex items-center gap-x-5">
+      <div className="flex flex-wrap items-center gap-5">
         <AnimatePresence>
           {headers ? (
             pathname === "/" ? (

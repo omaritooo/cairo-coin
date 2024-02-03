@@ -6,42 +6,42 @@ import { useTranslation } from "react-i18next";
 import { TabMobileSidebar } from "../ui/tab/TabMobileSidebar";
 import { toggleSidebar } from "src/store/theme";
 import { useAppDispatch, useAppSelector } from "src/services/hooks/useStore";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const mobileVariants = {
-  initial: {
-    opacity: 0,
-    width: 0,
-    top: 0,
-    left: -320,
-    transition: {
-      opacity: { duration: 0.3 },
-      width: { duration: 0.5 },
-      delay: 0.5,
-    },
-  },
-  animate: {
-    opacity: 1,
-    width: "50vw",
-    top: 0,
-    left: 0,
-    transition: {
-      opacity: { duration: 0.1, delay: 0.4 },
-      width: { duration: 0.5 },
-      delay: 0.5,
-    },
-  },
-  exit: {
-    opacity: 0,
-    width: 0,
+// const mobileVariants = {
+//   initial: {
+//     opacity: 0,
+//     width: 0,
+//     top: 0,
+//     left: -320,
+//     transition: {
+//       opacity: { duration: 0.3 },
+//       width: { duration: 0.6 },
+//       delay: 0.5,
+//     },
+//   },
+//   animate: (i: string) => ({
+//     opacity: 1,
+//     width: i,
+//     top: 0,
+//     left: 0,
+//     transition: {
+//       opacity: { duration: 0.1, delay: 0.4 },
+//       width: { duration: 0.6 },
+//       delay: 0.5,
+//     },
+//   }),
+//   exit: {
+//     opacity: 0,
+//     width: 0,
 
-    transition: {
-      opacity: { duration: 0.1 },
-      width: { duration: 0.5 },
-      delay: 0.5,
-    },
-  },
-};
+//     transition: {
+//       opacity: { duration: 0.1 },
+//       width: { duration: 0.6 },
+//       delay: 0.5,
+//     },
+//   },
+// };
 interface Route {
   [key: string]: {
     path: string;
@@ -67,12 +67,20 @@ const routeMap: Route = {
 export const MobileSidebar = () => {
   // const [toggled, setToggled] = useState<boolean>(false);
   const toggled = useAppSelector((state) => state.theme.mobileSidebarToggle);
+  const [width, setWidth] = useState("70vw");
 
+  const windowSize = useRef([window.innerWidth, window.innerHeight]);
+  console.log(windowSize.current[0]);
   const dispatch = useAppDispatch();
   const { t, ready } = useTranslation();
   const socials = t("nav", { returnObjects: true });
 
   useEffect(() => {
+    if (windowSize.current[0] >= 768) {
+      setWidth("50vw");
+    } else {
+      setWidth("70vw");
+    }
     if (toggled) {
       document.body.classList.add("overflow-hidden");
     } else {
@@ -80,6 +88,40 @@ export const MobileSidebar = () => {
     }
   }, [toggled]);
 
+  const mobileVariants = {
+    initial: {
+      opacity: 0,
+      width: 0,
+      top: 0,
+      left: -320,
+      transition: {
+        opacity: { duration: 0.3 },
+        width: { duration: 0.6 },
+        delay: 0.5,
+      },
+    },
+    animate: {
+      opacity: 1,
+      width: width,
+      top: 0,
+      left: 0,
+      transition: {
+        opacity: { duration: 0.1, delay: 0.4 },
+        width: { duration: 0.6 },
+        delay: 0.5,
+      },
+    },
+    exit: {
+      opacity: 0,
+      width: 0,
+
+      transition: {
+        opacity: { duration: 0.1 },
+        width: { duration: 0.6 },
+        delay: 0.5,
+      },
+    },
+  };
   if (!ready) return "Loading translations....";
   return (
     <AnimatePresence>
@@ -87,6 +129,7 @@ export const MobileSidebar = () => {
         <>
           <motion.aside
             className={` z-50 absolute flex-col px-4 py-8 items-center justify-between h-screen w-1/2  transition duration-150 delay-200 bg-gray-100 shadow-xl lg:hidden lg:px-2 dark:text-white dark:bg-dark-container `}
+            custom={width}
             {...mobileVariants}
           >
             <AnimatePresence>
@@ -106,7 +149,7 @@ export const MobileSidebar = () => {
               ) : null}
             </AnimatePresence>
             <div
-              className={`flex flex-col items-start ${
+              className={`flex flex-col items-start mt-20 ${
                 toggled ? "w-1/2 px-2" : ""
               } gap-y-10`}
             >
