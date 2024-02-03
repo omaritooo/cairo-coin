@@ -34,11 +34,11 @@ const BuySellTabs: Tabs[] = [
 
 const PlatformTabs: Tabs[] = [
   {
-    name: "Binance",
+    name: "Black Market",
     id: 0,
   },
   {
-    name: "Black Market",
+    name: "Binance",
     id: 1,
   },
 ];
@@ -85,7 +85,7 @@ export const ConversionView = () => {
   }, [list, binance, blackMarket]);
 
   return (
-    <div className="flex-1 w-full bg-light-container bg-opacity-70 px-6 py-6 rounded-lg my-7  dark:bg-dark-container">
+    <div className="flex-1 w-full px-6 py-6 rounded-lg bg-light-container bg-opacity-70 my-7 dark:bg-dark-container">
       <Seo title="/conversion" />
 
       <AnimatePresence>
@@ -100,7 +100,7 @@ export const ConversionView = () => {
           <div>Error</div>
         ) : (
           <motion.div className="flex flex-col flex-1 h-full" {...variants}>
-            <motion.div className="flex flex-col sm:flex-row gap-y-4 justify-between w-full">
+            <motion.div className="flex flex-col justify-between w-full sm:flex-row gap-y-4">
               <NavigationTabs
                 Tabs={BuySellTabs}
                 emitTab={transactionReceiver}

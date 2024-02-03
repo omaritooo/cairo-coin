@@ -27,8 +27,8 @@ interface PickerEmit {
 export const BlockConversion = ({ loading, list }: Props) => {
   if (loading || !list) return;
   const [currencies, setCurrencies] = useState({
-    currencyFrom: 1,
-    currencyTo: list ? list.USD : 1,
+    currencyFrom: list ? list.USD : 1,
+    currencyTo: 1,
   });
 
   const [toggles, setToggles] = useState({
@@ -37,8 +37,8 @@ export const BlockConversion = ({ loading, list }: Props) => {
   });
 
   const [countryPicker, setCountryPicker] = useState({
-    currencyFrom: "EG",
-    currencyTo: "US",
+    currencyFrom: "US",
+    currencyTo: "EG",
   });
 
   const [inputs, setInputs] = useState<StateType>({
@@ -150,11 +150,11 @@ export const BlockConversion = ({ loading, list }: Props) => {
   }, [list, inputs]);
 
   return (
-    <div className="flex flex-col mx-auto my-auto justify-center sm:bg-light-container  h-fit w-full sm:min-w-32 sm:w-80 p-4 rounded-md sm:shadow-md">
-      <div className="flex flex-col gap-y-4 items-center justify-center  mx-auto h-fit gap-x-3">
+    <div className="flex flex-col justify-center w-full p-4 mx-auto my-auto rounded-md sm:bg-light-container sm:dark:bg-dark-bg dark:text-white sm:dark:shadow-xl h-fit sm:min-w-32 sm:w-80 sm:shadow-md">
+      <div className="flex flex-col items-center justify-center mx-auto gap-y-4 h-fit gap-x-3">
         <div className="flex flex-col gap-y-2">
           <h2>Amount</h2>
-          <div className="flex flex-col sm:flex-row  self-center flex-1 max-w-1/3 h-fit min-h-max gap-x-2 gap-y-4">
+          <div className="flex flex-col self-center flex-1 sm:flex-row max-w-1/3 h-fit min-h-max gap-x-2 gap-y-4">
             <CountryPicker
               id="selector"
               name="currencyFrom"
@@ -180,10 +180,10 @@ export const BlockConversion = ({ loading, list }: Props) => {
             />
           </div>
         </div>
-        <div className="flex w-full items-center">
+        <div className="flex items-center w-full">
           <div className="bg-gray-200 h-[0.5px] flex flex-1 w-1/2" />
           <button
-            className="bg-white p-2 shadow-md rounded-full w-fit h-fit"
+            className="p-2 bg-white rounded-full shadow-md dark:bg-dark-container w-fit h-fit"
             onClick={swapCurrencies}
             type="button"
           >
@@ -193,7 +193,7 @@ export const BlockConversion = ({ loading, list }: Props) => {
         </div>
         <div className="flex flex-col gap-y-2">
           <h2>Converted Amount</h2>
-          <div className="flex self-center flex-col sm:flex-row flex-1 w-full min-h-max gap-x-2 gap-y-4">
+          <div className="flex flex-col self-center flex-1 w-full sm:flex-row min-h-max gap-x-2 gap-y-4">
             <CountryPicker
               id="selector"
               name="currencyTo"
