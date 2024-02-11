@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { MutableRefObject, useEffect, useRef } from "react";
 import { Country, countryHeaders } from "src/services/providers/countries";
-
+import React from 'react'
 export interface BaseSelectorProps {
   id: string;
   open: boolean;
@@ -11,7 +11,6 @@ export interface BaseSelectorProps {
   onChange: (value: PickerEmit) => void;
   selectedValue: Country | undefined;
 }
-
 
 interface PickerEmit {
   value: Country;

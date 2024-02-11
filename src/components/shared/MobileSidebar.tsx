@@ -96,6 +96,7 @@ export const MobileSidebar = () => {
       transition: {
         opacity: { duration: 0.3 },
         width: { duration: 0.6 },
+        left: { duration: 0.5 },
         delay: 0.5,
       },
     },
@@ -105,17 +106,18 @@ export const MobileSidebar = () => {
       top: 0,
       left: 0,
       transition: {
-        opacity: { duration: 0.4, },
+        opacity: { duration: 0.4 },
+        left: { duration: 0.5 },
         width: { duration: 0.6 },
         delay: 0.5,
       },
     },
     exit: {
       opacity: 0,
-      width: 0,
-
+      left: -320,
       transition: {
         opacity: { duration: 0.4 },
+        left: { duration: 0.5 },
         width: { duration: 0.6 },
         delay: 0.5,
       },
@@ -127,14 +129,13 @@ export const MobileSidebar = () => {
       {toggled ? (
         <>
           <motion.aside
-            className={` z-50 absolute flex-col px-4 py-8 items-center justify-between h-screen w-1/2  transition duration-150 delay-200 bg-gray-100 shadow-xl lg:hidden lg:px-2 dark:text-white dark:bg-dark-container `}
+            className={` z-[120] absolute flex-col px-4 py-8 items-center justify-between h-screen w-1/2  transition duration-150 delay-200 bg-gray-100 shadow-xl lg:hidden lg:px-2 dark:text-white dark:bg-dark-container `}
             custom={width}
             {...mobileVariants}
           >
             <AnimatePresence>
               {toggled ? (
-                <motion.div 
-                  className="flex items-center mb-5 max-h-10 ">
+                <motion.div className="flex items-center mb-5 max-h-10 ">
                   <motion.img
                     className="min-w-[50px] w-[50px] h-[60px] min-h-[50px] py-1 max-w-[50px] max-h-[50px]"
                     src="/logo.svg"
@@ -182,11 +183,11 @@ export const MobileSidebar = () => {
               <IconsArrow toggled={toggled} />
             </button>
           </motion.aside>
-          <motion.div 
+          <motion.div
             className="absolute top-0 left-0 z-10 w-screen h-screen bg-black bg-opacity-50"
             onClick={() => {
-                dispatch(toggleSidebar());
-              }}
+              dispatch(toggleSidebar());
+            }}
             transition={{
               initial: {
                 opacity: 0,

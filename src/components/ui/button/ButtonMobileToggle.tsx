@@ -12,7 +12,6 @@ type Transition = {
   duration: number;
 };
 interface PathProps extends SVGMotionProps<SVGPathElement> {
-  // Add any additional specific props you want to support
   variants: Variants;
   transition?: Transition;
 }

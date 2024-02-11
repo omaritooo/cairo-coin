@@ -11,35 +11,35 @@ import { IconsFaq } from "../icons/IconsFaq";
 import { useAppDispatch } from "src/services/hooks/useStore";
 import { toggleSidebar } from "src/store/theme";
 const textVariants = {
-  initial: {
-    opacity: 0,
-    width: 0,
+  // initial: {
+  //   opacity: 0,
+  //   width: 0,
 
-    transition: {
-      opacity: { duration: 0.3 },
-      width: { duration: 0.5 },
-      delay: 0.5,
-    },
-  },
-  animate: {
-    opacity: 1,
-    width: "400px",
-    transition: {
-      opacity: { duration: 0.1, delay: 0.4 },
-      width: { duration: 0.5 },
-      delay: 0.5,
-    },
-  },
-  exit: {
-    opacity: 0,
-    width: 0,
+  //   transition: {
+  //     opacity: { duration: 0.3 },
+  //     width: { duration: 0.5 },
+  //     delay: 0.5,
+  //   },
+  // },
+  // animate: {
+  //   opacity: 1,
+  //   width: "400px",
+  //   transition: {
+  //     opacity: { duration: 0.3 },
+  //     width: { duration: 0.5 },
+  //     delay: 0.5,
+  //   },
+  // },
+  // exit: {
+  //   opacity: 0,
+  //   width: 0,
 
-    transition: {
-      opacity: { duration: 0.1 },
-      width: { duration: 0.5 },
-      delay: 0.5,
-    },
-  },
+  //   transition: {
+  //     opacity: { duration: 0.1 },
+  //     width: { duration: 0.3 },
+  //     delay: 0.5,
+  //   },
+  // },
 };
 
 const IconPicker = {
