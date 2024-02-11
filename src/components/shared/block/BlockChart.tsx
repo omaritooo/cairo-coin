@@ -49,7 +49,6 @@ export const BlockChart = ({
           dataKey="Time"
           interval={intervals}
           minTickGap={5}
-          // padding="gap"
           tickCount={1}
           tickMargin={15}
           tickSize={1}

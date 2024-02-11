@@ -13,14 +13,14 @@ export const NavigationTabs = ({ Tabs, emitTab }: Props) => {
     emitTab(e);
   };
   return (
-    <div className="flex p-1 text-sm text-black rounded-lg bg-light-input drop-shadow-md dark:bg-dark-input dark:text-white div gap-x-1 bg-black-500 w-fit h-fit">
+    <div className="bg-light-input dark:bg-dark-input div bg-black-500 flex h-fit w-fit gap-x-1 rounded-lg p-1 text-sm text-black drop-shadow-md dark:text-white">
       {Tabs.map((el: Tabs) => (
         <button
           className={
             `${
               activeTab === el.id ? "bg-light-primary dark:bg-dark-primary" : ""
             }` +
-            " transition duration-150 flex-1 whitespace-nowrap  ease-in-out px-4 py-2 rounded-md"
+            " flex-1 whitespace-nowrap rounded-md px-4  py-2 transition duration-150 ease-in-out"
           }
           key={el.id}
           onClick={() => tabChanger(el)}

@@ -174,7 +174,7 @@ export const BlockConversion = ({ loading, list }: Props) => {
               id="first"
               name="from"
               placeholder="Enter value..."
-              type="text"
+              type="number"
               value={inputs.from}
               valueGetter={(e) => handleChange(setInputs, e)}
             />

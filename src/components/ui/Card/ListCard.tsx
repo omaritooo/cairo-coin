@@ -8,8 +8,8 @@ interface Props {
   type: "currency" | "gold";
 }
 export const ListCard = ({ name, subtitle, list, type }: Props) => (
-  <article className="relative flex flex-col justify-between w-full grid-cols-1 px-4 py-4 overflow-hidden text-black bg-white shadow-lg dark:text-white dark:bg-dark-container rounded-xl">
-    <h1 className="flex items-center text-2xl font-semibold text-black gap-x-2 dark:text-dark-titles">
+  <article className="dark:bg-dark-container relative flex w-full grid-cols-1 flex-col justify-between overflow-hidden rounded-xl bg-white px-4 py-4 text-black shadow-lg dark:text-white">
+    <h1 className="flex items-center gap-x-2 text-2xl font-semibold text-black dark:text-white">
       {name}
     </h1>
     <ListCard.Section list={list} title={subtitle} type={type} />
@@ -27,14 +27,14 @@ const ListSection = ({
   type: "currency" | "gold";
 }) => (
   <div className="h-fit">
-    <h1 className="mt-2 mb-3 italic">{title}</h1>
+    <h1 className="mb-3 mt-2 italic">{title}</h1>
     <div className="flex flex-col gap-y-3 ">
       {Object.keys(list).map((el) =>
         type === "currency" ? (
           <ListItem code={el} key={el} value={list[el]} />
         ) : (
           <GoldListItem code={el} key={el} value={list[el]} />
-        )
+        ),
       )}
     </div>
   </div>
@@ -45,17 +45,17 @@ const ListItem = ({ code, value }: { code: string; value: number }) => {
 
   return (
     <>
-      <div className="flex justify-between w-full">
-        <span className="flex items-center font-normal gap-x-1">
+      <div className="flex w-full justify-between">
+        <span className="flex items-center gap-x-1 font-normal">
           <img
-            className="inline h-4 rounded-sm rtl:ml-2 ltr:mr-2"
+            className="inline h-4 rounded-sm ltr:mr-2 rtl:ml-2"
             src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${flag?.code}.svg`}
           />
           {flag?.currencyCode}
         </span>
         <span className="font-normal">{toFixedWithCommas(`${value}`, 2)}</span>
       </div>
-      <hr className="border-[0.5px] border-gray-300 dark:border-dark-titles/50 last-of-type:hidden" />
+      <hr className="dark:border-dark-titles/50 border-[0.5px] border-gray-300 last-of-type:hidden" />
     </>
   );
 };
@@ -64,11 +64,11 @@ const GoldListItem = ({ code, value }: { code: string; value: number }) => {
   console.log("Gold");
   return (
     <>
-      <div className="flex justify-between w-full">
-        <span className="flex items-center font-normal gap-x-1">{code}</span>
+      <div className="flex w-full justify-between">
+        <span className="flex items-center gap-x-1 font-normal">{code}</span>
         <span className="font-normal">{toFixedWithCommas(`${value}`, 2)}</span>
       </div>
-      <hr className="border-[0.5px] last-of-type:hidden border-gray-300 dark:border-dark-titles/50" />
+      <hr className="dark:border-dark-titles/50 border-[0.5px] border-gray-300 last-of-type:hidden" />
     </>
   );
 };
