@@ -1,6 +1,22 @@
-import { motion } from "framer-motion";
+import { SVGMotionProps, motion } from "framer-motion";
 
-const Path = (props: any) => (
+type Variants = {
+  closed: {
+    d?: string;
+    opacity?: number;
+  };
+  open: { d?: string; opacity?: number };
+};
+
+type Transition = {
+  duration: number;
+};
+interface PathProps extends SVGMotionProps<SVGPathElement> {
+  // Add any additional specific props you want to support
+  variants: Variants;
+  transition?: Transition;
+}
+const Path: React.FC<PathProps> = (props) => (
   <motion.path
     fill="transparent"
     stroke="hsl(0, 0%, 18%)"

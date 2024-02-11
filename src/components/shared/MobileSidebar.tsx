@@ -70,7 +70,6 @@ export const MobileSidebar = () => {
   const [width, setWidth] = useState("70vw");
 
   const windowSize = useRef([window.innerWidth, window.innerHeight]);
-  console.log(windowSize.current[0]);
   const dispatch = useAppDispatch();
   const { t, ready } = useTranslation();
   const socials = t("nav", { returnObjects: true });
@@ -106,7 +105,7 @@ export const MobileSidebar = () => {
       top: 0,
       left: 0,
       transition: {
-        opacity: { duration: 0.1, delay: 0.4 },
+        opacity: { duration: 0.4, },
         width: { duration: 0.6 },
         delay: 0.5,
       },
@@ -116,7 +115,7 @@ export const MobileSidebar = () => {
       width: 0,
 
       transition: {
-        opacity: { duration: 0.1 },
+        opacity: { duration: 0.4 },
         width: { duration: 0.6 },
         delay: 0.5,
       },
@@ -134,18 +133,18 @@ export const MobileSidebar = () => {
           >
             <AnimatePresence>
               {toggled ? (
-                <div className="flex items-center mb-5 max-h-10 ">
+                <motion.div 
+                  className="flex items-center mb-5 max-h-10 ">
                   <motion.img
                     className="min-w-[50px] w-[50px] h-[60px] min-h-[50px] py-1 max-w-[50px] max-h-[50px]"
                     src="/logo.svg"
-                    transition={{ duration: 0.7 }}
+                    transition={{ duration: 0.2 }}
                     whileHover={{ rotateY: 180 }}
                   />
-
                   <motion.span className="mr-2 text-xl ltr:ml-2">
                     Cairo Coin
                   </motion.span>
-                </div>
+                </motion.div>
               ) : null}
             </AnimatePresence>
             <div
@@ -183,8 +182,11 @@ export const MobileSidebar = () => {
               <IconsArrow toggled={toggled} />
             </button>
           </motion.aside>
-          <motion.div
+          <motion.div 
             className="absolute top-0 left-0 z-10 w-screen h-screen bg-black bg-opacity-50"
+            onClick={() => {
+                dispatch(toggleSidebar());
+              }}
             transition={{
               initial: {
                 opacity: 0,

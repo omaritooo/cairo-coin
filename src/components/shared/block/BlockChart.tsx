@@ -62,10 +62,8 @@ export const BlockChart = ({
           tickMargin={5}
           type="number"
         />
-
         <Tooltip />
         <Legend />
-
         <Area
           dataKey="Value"
           fill="url(#colorPv)"

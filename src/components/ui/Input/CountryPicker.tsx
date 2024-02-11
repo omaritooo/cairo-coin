@@ -8,8 +8,14 @@ export interface BaseSelectorProps {
   disabled?: boolean;
   name: string;
   onToggle: () => void;
-  onChange: (value: any["value"]) => void;
+  onChange: (value: PickerEmit) => void;
   selectedValue: Country | undefined;
+}
+
+
+interface PickerEmit {
+  value: Country;
+  name: string;
 }
 
 export const CountryPicker = ({

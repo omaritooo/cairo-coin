@@ -7,34 +7,20 @@ import { ListCard } from "src/components/ui/Card/ListCard";
 import { CardGold } from "src/components/ui/Card/CardGold";
 
 export const BlockGold = ({ isLoading }: { isLoading: boolean }) => {
-  console.log("Gold block.");
   const state = useAppSelector((state) => state.home);
   if (!state.gold) return;
   return (
     <motion.div
-      className="grid w-full grid-cols-8 space-y-0 gap-y-7 h-fit gap-x-4  "
+      className="grid w-full grid-cols-8 space-y-0 gap-y-7 h-fit gap-x-4 "
       {...variants}
     >
       <CardIndicator />
-
       <CardSmall
         loading={isLoading}
         name="Gold Dollar"
         price={state.gold?.Dollar.Price}
         rate={state.gold.Dollar.Rate}
       />
-      {/* <CardSmall
-        loading={isLoading}
-        name="Gold Dollar"
-        price={state.gold?.Dollar.Price}
-        rate={state.gold.Dollar.Rate}
-      />
-      <CardSmall
-        loading={isLoading}
-        name="Gold Dollar"
-        price={state.gold?.Dollar.Price}
-        rate={state.gold.Dollar.Rate}
-      /> */}
       <CardGold
         karats={state.gold.Gram.Buy}
         loading={isLoading}
@@ -50,7 +36,7 @@ export const BlockGold = ({ isLoading }: { isLoading: boolean }) => {
         type="lg"
       />
 
-      <div className="flex flex-col md:flex-row col-span-8 lg:col-span-4 gap-2">
+      <div className="flex flex-col col-span-8 gap-2 md:flex-row lg:col-span-4">
         <ListCard
           list={state.gold.Ingot.Buy}
           name="Gold Ingots"
@@ -64,7 +50,7 @@ export const BlockGold = ({ isLoading }: { isLoading: boolean }) => {
           type="gold"
         />
       </div>
-      <div className="flex flex-col md:flex-row col-span-8 lg:col-span-4 gap-2">
+      <div className="flex flex-col col-span-8 gap-2 md:flex-row lg:col-span-4">
         <CardGold
           karats={state.gold.Gram.Rate}
           loading={isLoading}
