@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { MutableRefObject, useEffect, useRef } from "react";
 import { Country, countryHeaders } from "src/services/providers/countries";
-import React from 'react'
+
 export interface BaseSelectorProps {
   id: string;
   open: boolean;
