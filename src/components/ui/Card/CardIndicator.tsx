@@ -12,6 +12,7 @@ export const CardIndicator = () => {
   const indicator = useAppSelector((state) => state.home.indicator);
   const [open, setOpened] = useState(false);
   if (!indicator) return;
+
   const main = document.getElementById("main");
 
   useEffect(() => {
@@ -30,9 +31,9 @@ export const CardIndicator = () => {
         loading={false}
         name="Indicator"
       >
-        {indicator.Value == 99 || -99 ? (
+        {indicator.Value === 99 || indicator.Value === -99 ? 
           <CardInfinity />
-        ) : (
+ : (
           <>
             <span className="mx-auto text-6xl text-center text-white w-fit ">
               {indicator?.Value}
