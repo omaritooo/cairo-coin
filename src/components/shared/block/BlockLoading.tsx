@@ -8,7 +8,7 @@ export const BlockLoading = () => (
 				{...variants}
 				className="flex items-center justify-center h-full"
 			>
-				<div className="w-20 h-20 rounded-full bg-violet-800 animate-ping" />
+				<div className="w-20 h-20 rounded-full bg-light-container dark:bg-dark-container animate-ping" />
 			</motion.div>
 		</AnimatePresence>
 	</div>

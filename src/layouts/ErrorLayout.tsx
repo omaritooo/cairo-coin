@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 export const ErrorLayout = () => (
   <main className="flex flex-col items-center justify-center w-full h-screen bg-white dark:bg-dark-bg">
